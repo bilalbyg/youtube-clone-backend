@@ -8,6 +8,6 @@ const ChannelSchema = Mongoose.Schema({
     background_image : String,
     videos : [String],
     about : String
-})
+}, {timestamps : true, versionKey : false})
 
-module.exports = Mongoose.model("user", UserSchema)
+module.exports = Mongoose.model("channel", ChannelSchema)

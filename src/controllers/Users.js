@@ -23,7 +23,7 @@ const index = (req, res) => {
 };
 
 const create = (req, res) => {
-  console.log("Controller : " + req.body);
+  req.body.password = passwordToHash(req.body.password);
   insert(req.body)
     .then((response) => {
       res.status(httpStatus.CREATED).send(response);

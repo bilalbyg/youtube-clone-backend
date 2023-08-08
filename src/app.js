@@ -1,7 +1,7 @@
 const express = require("express")
 const config = require("./config")
 const loaders = require("./loaders")
-const { UserRoutes } = require("./routes")
+const { UserRoutes, ChannelRoutes } = require("./routes")
 const app = express()
 
 config()
@@ -13,4 +13,5 @@ app.listen(5000, () => {
     console.log("Server Up");
     console.log(process.env.PORT);
     app.use("/users", UserRoutes)
+    app.use("/channels", ChannelRoutes)
 })
