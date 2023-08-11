@@ -8,7 +8,11 @@ const VideoSchema = Mongoose.Schema({
         type : Mongoose.Types.ObjectId,
         ref : "channel"
     },
-    video_url : String
+    video_url : String,
+    thumbnail : String,
+    views : String,
+    upload_date : Date,
+    description : String
 },{timestamps : true, versionKey : false})
 
 module.exports = Mongoose.model("video", VideoSchema)

@@ -6,7 +6,6 @@ const ChannelSchema = Mongoose.Schema({
     joined_date : Date,
     cover_image : String,
     background_image : String,
-    videos : [String],
     about : String
 }, {timestamps : true, versionKey : false})
 

@@ -1,6 +1,7 @@
 const httpStatus = require("http-status");
 const {
   list,
+  listById,
   insert,
   modify,
   remove,
@@ -14,6 +15,22 @@ const {
 
 const index = (req, res) => {
   list()
+    .then((response) => {
+      res.status(httpStatus.OK).send(response);
+    })
+    .catch((error) => {
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error);
+    });
+};
+
+const indexById = (req, res) => {
+  if (!req?.params?.id) {
+    return res
+      .status(httpStatus.BAD_REQUEST)
+      .send({ message: "ID value required" });
+  }
+
+  listById(req.params.id)
     .then((response) => {
       res.status(httpStatus.OK).send(response);
     })
@@ -71,9 +88,8 @@ const deleteUser = (req, res) => {
 };
 
 const login = (req, res) => {
-  console.log(req.body);
   req.body.password = passwordToHash(req.body.password);
-  console.log(req.body.password);
+    
   loginUser(req.body)
     .then((user) => {
       if (!user) {
@@ -82,13 +98,13 @@ const login = (req, res) => {
           .send({ message: "User not found" });
       }
 
+      console.log(user);
       user = {
         ...user.toObject(),
-        access_token : generateAccessToken(user),
-        refresh_token : generateRefreshToken(user)
-      }
-      delete user.password
-      console.log(user);
+        access_token: generateAccessToken(user),
+        refresh_token: generateRefreshToken(user),
+      };
+      delete user.password;
 
       res.status(httpStatus.OK).send(user);
     })
@@ -99,6 +115,7 @@ const login = (req, res) => {
 
 module.exports = {
   index,
+  indexById,
   create,
   update,
   deleteUser,

@@ -1,5 +1,5 @@
 const httpStatus = require("http-status")
-const { list, insert, modify, remove } = require("../services/Videos")
+const { list, insert, modify, remove, listById } = require("../services/Videos")
 
 const index = (req, res) => {
     list().then((response) => {
@@ -7,6 +7,21 @@ const index = (req, res) => {
     }).catch((error) => {
         res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error)
     })
+}
+
+const indexById = (req, res) => {
+  
+  if (!req.params?.id) {
+    return res.status(httpStatus.BAD_REQUEST).send({
+      message: "ID value required",
+    });
+  }
+  
+  listById(req.params?.id).then((response) => {
+    res.status(httpStatus.OK).send(response)
+  }).catch((error) => {
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error)
+  })
 }
 
 const create = (req, res) => {
@@ -50,5 +65,5 @@ const deleteVideo = (req, res) => {
 };
 
 module.exports = {
-    index, create, update, deleteVideo
+    index, indexById, create, update, deleteVideo
 }

@@ -1,5 +1,5 @@
 const httpStatus = require("http-status")
-const { list, insert, modify, remove, listById } = require("../services/Channels")
+const { list, insert, modify, remove, listById, listByVideoId } = require("../services/Comments")
 
 const index = (req, res) => {
     list().then((response) => {
@@ -15,8 +15,22 @@ const indexById = (req, res) => {
       message: "ID value required",
     });
   }
-
+  
   listById(req.params?.id).then((response) => {
+    res.status(httpStatus.OK).send(response)
+  }).catch((error) => {
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error)
+  })
+}
+
+const indexByVideoId = (req, res) => {
+  if (!req.params?.videoId) {
+    return res.status(httpStatus.BAD_REQUEST).send({
+      message: "ID value required",
+    });
+  }
+  
+  listByVideoId(req.params?.videoId).then((response) => {
     res.status(httpStatus.OK).send(response)
   }).catch((error) => {
     res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error)
@@ -39,7 +53,7 @@ const update = (req, res) => {
     })
 }
 
-const deleteChannel = (req, res) => {
+const deleteComment = (req, res) => {
     if (!req.params?.id) {
       return res.status(httpStatus.BAD_REQUEST).send({
         message: "ID value required",
@@ -49,7 +63,7 @@ const deleteChannel = (req, res) => {
       .then((deletedChannel) => {
         if (!deletedChannel) {
           return res.status(httpStatus.NOT_FOUND).send({
-            message: "Channel not found",
+            message: "Comment not found",
           });
         }
         res.status(httpStatus.OK).send({
@@ -64,5 +78,5 @@ const deleteChannel = (req, res) => {
 };
 
 module.exports = {
-    index, create, update, deleteChannel, indexById
+    index, indexById, indexByVideoId, create, update, deleteComment
 }

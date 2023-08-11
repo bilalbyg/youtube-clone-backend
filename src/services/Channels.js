@@ -4,6 +4,10 @@ const list = () => {
     return Channel.find({})
 }
 
+const listById = (id) => {
+    return Channel.findById(id)
+}
+
 const insert = (channelData) => {
     const channel = new Channel(channelData)
     return channel.save()
@@ -18,5 +22,5 @@ const remove = (id) => {
 }
 
 module.exports = {
-    list, insert, modify, remove
+    list, insert, modify, remove, listById
 }

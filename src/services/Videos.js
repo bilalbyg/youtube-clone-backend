@@ -4,9 +4,12 @@ const list = () => {
     return Video.find({});
 }
 
+const listById = (id) => {
+    return Video.findById(id)
+}
+
 const insert = (videoData) => {
     const video = new Video(videoData)
-    console.log(videoData);
     return video.save()
 }
 
@@ -23,4 +26,5 @@ module.exports = {
     insert,
     modify,
     remove,
+    listById
 }

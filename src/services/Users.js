@@ -4,6 +4,10 @@ const list = () => {
     return User.find({});
 }
 
+const listById = (id) => {
+    return User.findById(id)
+}
+
 const insert = (userData) => {
     const user = new User(userData)
     console.log(userData);
@@ -24,6 +28,7 @@ const loginUser = (loginData) => {
 
 module.exports = {
     list,
+    listById,
     insert,
     modify,
     remove,
